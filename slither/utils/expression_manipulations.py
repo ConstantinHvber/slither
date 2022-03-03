@@ -86,14 +86,19 @@ class SplitTernaryExpression:
             true_expression._expressions = []
             false_expression._expressions = []
 
-            for next_expr in expression.expressions:
-                if self.apply_copy(next_expr, true_expression, false_expression, f_expressions):
-                    # always on last arguments added
-                    self.copy_expression(
-                        next_expr,
-                        true_expression.expressions[-1],
-                        false_expression.expressions[-1],
-                    )
+            def parse_inner(exprs):
+                for next_expr in exprs:
+                    if hasattr(next_expr, "expressions"):
+                        parse_inner(next_expr.expressions)
+                    if self.apply_copy(next_expr, true_expression, false_expression, f_expressions):
+                        # always on last arguments added
+                        self.copy_expression(
+                            next_expr,
+                            true_expression.expressions[-1],
+                            false_expression.expressions[-1],
+                        )
+
+            parse_inner(expression.expressions)
 
         elif isinstance(expression, CallExpression):
             next_expr = expression.called
