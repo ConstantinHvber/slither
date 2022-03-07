@@ -40,6 +40,7 @@ def save_to_disk(files: List[Export]):
         with open(file.filename, "w", encoding="utf8") as f:
             logger.info(f"Export {file.filename}")
             f.write(file.content)
+            f.close()
 
 
 def export_as_json(files: List[Export], filename: str):
