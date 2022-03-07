@@ -275,8 +275,8 @@ class Flattening:
             ret.append(self._export_contract_with_inheritance(contract))
         return ret
 
-    def _export_all(self) -> List[Export]:
-        path = Path(self._export_path, "export.sol")
+    def _export_all(self,nhash) -> List[Export]:
+        path = Path(self._export_path, "{}.sol".format(nhash))
 
         content = ""
         content += self._pragmas()
